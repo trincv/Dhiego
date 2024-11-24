@@ -9,11 +9,12 @@ typedef struct Coordenadas{
     char coordenadas[5][20];
 } Coordenadas;
 
-Coordenadas Quebra_Coordenadas(char coordenadas[], int cont);
+void Quebra_Coordenadas(float auxiliar[], char coordenadas[], int cont);
 
 int main()
 {
     Coordenadas coor;
+    float auxiliar[2];
     char coordenadas[20];
     int icont, jcont, tam = 0;
     float distance = 0;
@@ -22,57 +23,50 @@ int main()
     
     for(icont = 0; icont < 5; icont++, tam++){
         scanf("%s", coordenadas);
-        // for(jcont = 0; jcont < 20; jcont++)
-        //     coordenadas[jcont] = coor.coordenadas[icont][jcont];
-            
-        coor = Quebra_Coordenadas(coordenadas, icont);
-        //printf("%.2f %.2f\n", coor.x[icont], coor.y[icont]);
+        Quebra_Coordenadas(auxiliar, coordenadas, icont);
+        coor.x[icont] = auxiliar[0];
+        coor.y[icont] = auxiliar[1];
     }
-    for(icont = 0;icont < 5; icont++)
-        printf("%.2f %.2f\n", coor.x[icont], coor.y[icont]);
-    // for(jcont = 0; jcont < 4; jcont++){
-    //     distance += sqrt((coor.x[jcont] - coor.x[jcont + 1]) * (coor.x[jcont] - coor.x[jcont + 1]) + (coor.y[jcont] - coor.y[jcont + 1]) * (coor.y[jcont] - coor.y[jcont + 1]));
-    //     printf("x %.2f\n", coor.x[jcont]);
-    // }
+    for(jcont = 0; jcont < 4; jcont++){
+        distance += sqrt((coor.x[jcont] - coor.x[jcont + 1]) * (coor.x[jcont] - coor.x[jcont + 1]) + (coor.y[jcont] - coor.y[jcont + 1]) * (coor.y[jcont] - coor.y[jcont + 1]));
+    }
     
-    // printf("distance %.2f", distance);
-    // shortcut = sqrt((coor.x[0] - coor.x[tam - 1]) * (coor.x[0] - coor.x[tam - 1]) + (coor.y[0] - coor.y[tam - 1]) * (coor.y[0] - coor.y[tam - 1]));
+    shortcut = sqrt((coor.x[0] - coor.x[tam - 1]) * (coor.x[0] - coor.x[tam - 1]) + (coor.y[0] - coor.y[tam - 1]) * (coor.y[0] - coor.y[tam - 1]));
     
-    // for(icont = 0; icont < 5; icont++){
-    //     coor.origem[icont] = sqrt((coor.x[icont] * coor.x[icont]) + (coor.y[icont] * coor.y[icont]));
-    // }
+    for(icont = 0; icont < 5; icont++){
+        coor.origem[icont] = sqrt((coor.x[icont] * coor.x[icont]) + (coor.y[icont] * coor.y[icont]));
+    }
     
-    // for(icont = 0; icont < 4; icont++){
-    //     for(jcont = icont + 1; jcont < 5; jcont++)
-    //         if(coor.origem[icont] > coor.origem[jcont]){
-    //             aux = coor.origem[icont];
-    //             coor.origem[icont] = coor.origem[jcont];
-    //             coor.origem[jcont] = aux;
-    //             aux = coor.x[icont];
-    //             coor.x[icont] = coor.x[jcont];
-    //             coor.x[jcont] = aux;
-    //             aux = coor.y[icont];
-    //             coor.y[icont] = coor.y[jcont];
-    //             coor.y[jcont] = aux;
-    //         }
-    // }
+    for(icont = 0; icont < 4; icont++){
+        for(jcont = icont + 1; jcont < 5; jcont++)
+            if(coor.origem[icont] > coor.origem[jcont]){
+                aux = coor.origem[icont];
+                coor.origem[icont] = coor.origem[jcont];
+                coor.origem[jcont] = aux;
+                aux = coor.x[icont];
+                coor.x[icont] = coor.x[jcont];
+                coor.x[jcont] = aux;
+                aux = coor.y[icont];
+                coor.y[icont] = coor.y[jcont];
+                coor.y[jcont] = aux;
+            }
+    }
     
-    // for(icont = 0; icont < 5; icont++)
-    //     printf("(%.0f,%.0f) ", coor.x[icont], coor.y[icont]);
+    for(icont = 0; icont < 5; icont++)
+        printf("(%.0f,%.0f) ", coor.x[icont], coor.y[icont]);
     
-    // printf("distance %.2f shortcut %.2f\n", distance, shortcut);
+    printf("distance %.2f shortcut %.2f\n", distance, shortcut);
     
     
 }
 
 
-Coordenadas Quebra_Coordenadas(char coordenadas[], int cont)
+void Quebra_Coordenadas(float auxiliar[], char coordenadas[], int cont)
 {
-    //char coordenadas[] = {"(-48.3,-49.38)"};
     Coordenadas coor;
     char LD[10];
     char LE[10];
-    float aux = 1;
+    float x = 0, y = 0, aux = 1;
     int icont, jcont, position = 0, num = 0;
     int tamD = 0, tamE = 0;
     
@@ -103,11 +97,11 @@ Coordenadas Quebra_Coordenadas(char coordenadas[], int cont)
                 num += (LE[icont] - '0') * aux;
             num -= num * 2;
             for(aux = 1; position > 0; position--, aux *= 10){}
-            coor.x[cont] = num / aux;
+            x = num / aux;
         }else{
             for(icont = tamE; icont >= 1; icont--, aux *= 10)
                 num += (LE[icont] - '0') * aux;
-            coor.x[cont] = num - (num * 2);
+            x = num - (num * 2);
         }
     }else{
         for(icont = 0; LE[icont] != '\0'; icont++){
@@ -124,11 +118,11 @@ Coordenadas Quebra_Coordenadas(char coordenadas[], int cont)
             for(icont = tamE; icont >= 0; icont--, aux *= 10)
                 num += (LE[icont] - '0') * aux;
             for(aux = 1; position > 0; position--, aux *= 10){}
-            coor.x[cont] = num / aux;
+            x = num / aux;
         }else{
             for(icont = tamE; icont >= 0; icont--, aux *= 10)
                 num += (LE[icont] - '0') * aux;
-            coor.x[cont] = num;
+            x = num;
         }
     }
     position = 0;
@@ -149,11 +143,11 @@ Coordenadas Quebra_Coordenadas(char coordenadas[], int cont)
                 num += (LD[icont] - '0') * aux;
             num -= num * 2;
             for(aux = 1; position > 0; position--, aux *= 10){}
-            coor.y[cont] = num / aux;
+            y = num / aux;
         }else{
             for(icont = tamD, aux = 1; icont >= 1; icont--, aux *= 10)
                 num += (LD[icont] - '0') * aux;
-            coor.y[cont] = num - (num * 2);
+            y = num - (num * 2);
         }
     }else{
         for(icont = 0; LD[icont] != '\0'; icont++){
@@ -170,12 +164,13 @@ Coordenadas Quebra_Coordenadas(char coordenadas[], int cont)
             for(icont = tamD, aux = 1; icont >= 0; icont--, aux *= 10)
                 num += (LD[icont] - '0') * aux;
             for(aux = 1; position > 0; position--, aux *= 10){}
-            coor.y[cont] = num / aux;
+            y = num / aux;
         }else{
             for(icont = tamD, aux = 1; icont >= 0; icont--, aux *= 10)
                 num += (LD[icont] - '0') * aux;
-            coor.y[cont] = num;
+            y = num;
         }
     }
-    return coor;
+    auxiliar[0] = x;
+    auxiliar[1] = y;
 }

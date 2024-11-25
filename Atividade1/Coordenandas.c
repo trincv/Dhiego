@@ -18,7 +18,7 @@ int main()
     int icont = 0, jcont = 0, tam = 0;
     float distance = 0;
     float shortcut = 0;
-    float aux;     //arquivo test
+    float aux;     
     char c;
     
     FILE *point_arq;
@@ -70,7 +70,6 @@ int main()
                                 coor.y[jcont] = aux;
                             }
                     }
-                    
                     for(icont = 0; icont < tam; icont++){
                         printf("(%.1f,%.1f) ", coor.x[icont], coor.y[icont]);
                     }

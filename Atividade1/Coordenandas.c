@@ -6,7 +6,6 @@ typedef struct Coordenadas{
     float x[5];
     float y[5];
     float origem[5];
-    char coordenadas[5][20];
 } Coordenadas;
 
 void Quebra_Coordenadas(float auxiliar[], char coordenadas[], int cont);
@@ -16,17 +15,41 @@ int main()
     Coordenadas coor;
     float auxiliar[2];
     char coordenadas[20];
-    int icont, jcont, tam = 0;
+    int icont = 0, jcont = 0, tam = 0;
     float distance = 0;
     float shortcut = 0;
-    float aux;
+    float aux;     //arquivo test
+    char c;
     
-    for(icont = 0; icont < 5; icont++, tam++){
-        scanf("%s", coordenadas);
-        Quebra_Coordenadas(auxiliar, coordenadas, icont);
-        coor.x[icont] = auxiliar[0];
-        coor.y[icont] = auxiliar[1];
+    FILE *point_arq;
+
+    point_arq = fopen("L0Q1.in","r");
+
+    if(point_arq == NULL){
+        printf("Falhou");
+        return 1;
     }
+    else{
+        do{
+            c = fgetc(point_arq);
+            if(c != ' '){
+                coordenadas[icont++] = c;
+            }
+            coordenadas[icont] = '\0';
+            if(c == ' ' || c == EOF){
+                Quebra_Coordenadas(auxiliar, coordenadas, jcont);
+                coor.x[jcont] = auxiliar[0];
+                coor.y[jcont] = auxiliar[1];
+                icont = 0;
+                jcont++;
+            }
+        }while(c != EOF);
+    
+    }
+    fclose(point_arq);
+
+    tam = jcont;
+
     for(jcont = 0; jcont < 4; jcont++){
         distance += sqrt((coor.x[jcont] - coor.x[jcont + 1]) * (coor.x[jcont] - coor.x[jcont + 1]) + (coor.y[jcont] - coor.y[jcont + 1]) * (coor.y[jcont] - coor.y[jcont + 1]));
     }

@@ -38,7 +38,7 @@ int main()
         }else{
             do{
                 c = fgetc(point_in);
-                if(c != ' '){
+                if(c != ' ' && c != '\n' && c != EOF){
                     coordenadas[icont++] = c;
                 }
                 coordenadas[icont] = '\0';
@@ -63,7 +63,7 @@ int main()
                         }
                         
                         for(icont = 0; icont < tam - 1; icont++){
-                            for(jcont = icont + 1; jcont < 5; jcont++)
+                            for(jcont = icont + 1; jcont < tam; jcont++)
                                 if(coor.origem[icont] > coor.origem[jcont]){
                                     aux = coor.origem[icont];
                                     coor.origem[icont] = coor.origem[jcont];

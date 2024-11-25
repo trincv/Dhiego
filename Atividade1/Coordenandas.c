@@ -3,9 +3,9 @@
 #include <math.h>
 
 typedef struct Coordenadas{
-    float x[5];
-    float y[5];
-    float origem[5];
+    float x[10];
+    float y[10];
+    float origem[10];
 } Coordenadas;
 
 void Quebra_Coordenadas(float auxiliar[], char coordenadas[], int cont);
@@ -36,50 +36,57 @@ int main()
                 coordenadas[icont++] = c;
             }
             coordenadas[icont] = '\0';
-            if(c == ' ' || c == EOF){
+            if(c == ' ' || c == EOF || c == '\n'){
                 Quebra_Coordenadas(auxiliar, coordenadas, jcont);
                 coor.x[jcont] = auxiliar[0];
                 coor.y[jcont] = auxiliar[1];
                 icont = 0;
                 jcont++;
+                if(c == EOF || c == '\n'){
+                    
+                    tam = jcont;
+
+                    for(jcont = 0; jcont < tam - 1; jcont++){
+                        distance += sqrt((coor.x[jcont] - coor.x[jcont + 1]) * (coor.x[jcont] - coor.x[jcont + 1]) + (coor.y[jcont] - coor.y[jcont + 1]) * (coor.y[jcont] - coor.y[jcont + 1]));
+                    }
+                    
+                    shortcut = sqrt((coor.x[0] - coor.x[tam - 1]) * (coor.x[0] - coor.x[tam - 1]) + (coor.y[0] - coor.y[tam - 1]) * (coor.y[0] - coor.y[tam - 1]));
+                    
+                    for(icont = 0; icont < tam; icont++){
+                        coor.origem[icont] = sqrt((coor.x[icont] * coor.x[icont]) + (coor.y[icont] * coor.y[icont]));
+                    }
+                    
+                    for(icont = 0; icont < tam - 1; icont++){
+                        for(jcont = icont + 1; jcont < 5; jcont++)
+                            if(coor.origem[icont] > coor.origem[jcont]){
+                                aux = coor.origem[icont];
+                                coor.origem[icont] = coor.origem[jcont];
+                                coor.origem[jcont] = aux;
+                                aux = coor.x[icont];
+                                coor.x[icont] = coor.x[jcont];
+                                coor.x[jcont] = aux;
+                                aux = coor.y[icont];
+                                coor.y[icont] = coor.y[jcont];
+                                coor.y[jcont] = aux;
+                            }
+                    }
+                    
+                    for(icont = 0; icont < tam; icont++){
+                        printf("(%.1f,%.1f) ", coor.x[icont], coor.y[icont]);
+                    }
+                    printf("distance %.2f shortcut %.2f\n", distance, shortcut);
+                    for(icont = 0; icont < tam; icont++){
+                        coor.x[icont] = 0;
+                        coor.y[icont] = 0;
+                    }
+                    jcont = 0;
+                    icont = 0;
+                }
             }
         }while(c != EOF);
     
     }
     fclose(point_arq);
-
-    tam = jcont;
-
-    for(jcont = 0; jcont < 4; jcont++){
-        distance += sqrt((coor.x[jcont] - coor.x[jcont + 1]) * (coor.x[jcont] - coor.x[jcont + 1]) + (coor.y[jcont] - coor.y[jcont + 1]) * (coor.y[jcont] - coor.y[jcont + 1]));
-    }
-    
-    shortcut = sqrt((coor.x[0] - coor.x[tam - 1]) * (coor.x[0] - coor.x[tam - 1]) + (coor.y[0] - coor.y[tam - 1]) * (coor.y[0] - coor.y[tam - 1]));
-    
-    for(icont = 0; icont < 5; icont++){
-        coor.origem[icont] = sqrt((coor.x[icont] * coor.x[icont]) + (coor.y[icont] * coor.y[icont]));
-    }
-    
-    for(icont = 0; icont < 4; icont++){
-        for(jcont = icont + 1; jcont < 5; jcont++)
-            if(coor.origem[icont] > coor.origem[jcont]){
-                aux = coor.origem[icont];
-                coor.origem[icont] = coor.origem[jcont];
-                coor.origem[jcont] = aux;
-                aux = coor.x[icont];
-                coor.x[icont] = coor.x[jcont];
-                coor.x[jcont] = aux;
-                aux = coor.y[icont];
-                coor.y[icont] = coor.y[jcont];
-                coor.y[jcont] = aux;
-            }
-    }
-    
-    for(icont = 0; icont < 5; icont++)
-        printf("(%.0f,%.0f) ", coor.x[icont], coor.y[icont]);
-    
-    printf("distance %.2f shortcut %.2f\n", distance, shortcut);
-    
     
 }
 

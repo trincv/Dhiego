@@ -6,7 +6,6 @@ typedef struct Coordenadas{
     float x[5];
     float y[5];
     float origem[5];
-    char coordenadas[5][20];
 } Coordenadas;
 
 void Quebra_Coordenadas(float auxiliar[], char coordenadas[], int cont);

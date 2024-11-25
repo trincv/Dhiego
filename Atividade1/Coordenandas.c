@@ -21,72 +21,80 @@ int main()
     float aux;     
     char c;
     
-    FILE *point_arq;
+    FILE *point_out;
 
-    point_arq = fopen("L0Q1.in","r");
-
-    if(point_arq == NULL){
+    point_out = fopen("L0Q1.out", "w");
+    if(point_out == NULL){
         printf("Falhou");
         return 1;
-    }
-    else{
-        do{
-            c = fgetc(point_arq);
-            if(c != ' '){
-                coordenadas[icont++] = c;
-            }
-            coordenadas[icont] = '\0';
-            if(c == ' ' || c == EOF || c == '\n'){
-                Quebra_Coordenadas(auxiliar, coordenadas, jcont);
-                coor.x[jcont] = auxiliar[0];
-                coor.y[jcont] = auxiliar[1];
-                icont = 0;
-                jcont++;
-                if(c == EOF || c == '\n'){
-                    
-                    tam = jcont;
+    }else{
+        FILE *point_in;
 
-                    for(jcont = 0; jcont < tam - 1; jcont++){
-                        distance += sqrt((coor.x[jcont] - coor.x[jcont + 1]) * (coor.x[jcont] - coor.x[jcont + 1]) + (coor.y[jcont] - coor.y[jcont + 1]) * (coor.y[jcont] - coor.y[jcont + 1]));
-                    }
-                    
-                    shortcut = sqrt((coor.x[0] - coor.x[tam - 1]) * (coor.x[0] - coor.x[tam - 1]) + (coor.y[0] - coor.y[tam - 1]) * (coor.y[0] - coor.y[tam - 1]));
-                    
-                    for(icont = 0; icont < tam; icont++){
-                        coor.origem[icont] = sqrt((coor.x[icont] * coor.x[icont]) + (coor.y[icont] * coor.y[icont]));
-                    }
-                    
-                    for(icont = 0; icont < tam - 1; icont++){
-                        for(jcont = icont + 1; jcont < 5; jcont++)
-                            if(coor.origem[icont] > coor.origem[jcont]){
-                                aux = coor.origem[icont];
-                                coor.origem[icont] = coor.origem[jcont];
-                                coor.origem[jcont] = aux;
-                                aux = coor.x[icont];
-                                coor.x[icont] = coor.x[jcont];
-                                coor.x[jcont] = aux;
-                                aux = coor.y[icont];
-                                coor.y[icont] = coor.y[jcont];
-                                coor.y[jcont] = aux;
-                            }
-                    }
-                    for(icont = 0; icont < tam; icont++){
-                        printf("(%.1f,%.1f) ", coor.x[icont], coor.y[icont]);
-                    }
-                    printf("distance %.2f shortcut %.2f\n", distance, shortcut);
-                    for(icont = 0; icont < tam; icont++){
-                        coor.x[icont] = 0;
-                        coor.y[icont] = 0;
-                    }
-                    jcont = 0;
-                    icont = 0;
+        point_in = fopen("L0Q1.in","r");
+
+        if(point_in == NULL){
+            printf("Falhou");
+            return 1;
+        }else{
+            do{
+                c = fgetc(point_in);
+                if(c != ' '){
+                    coordenadas[icont++] = c;
                 }
-            }
-        }while(c != EOF);
-    
+                coordenadas[icont] = '\0';
+                if(c == ' ' || c == EOF || c == '\n'){
+                    Quebra_Coordenadas(auxiliar, coordenadas, jcont);
+                    coor.x[jcont] = auxiliar[0];
+                    coor.y[jcont] = auxiliar[1];
+                    icont = 0;
+                    jcont++;
+                    if(c == EOF || c == '\n'){
+                        
+                        tam = jcont;
+
+                        for(jcont = 0; jcont < tam - 1; jcont++){
+                            distance += sqrt((coor.x[jcont] - coor.x[jcont + 1]) * (coor.x[jcont] - coor.x[jcont + 1]) + (coor.y[jcont] - coor.y[jcont + 1]) * (coor.y[jcont] - coor.y[jcont + 1]));
+                        }
+                        
+                        shortcut = sqrt((coor.x[0] - coor.x[tam - 1]) * (coor.x[0] - coor.x[tam - 1]) + (coor.y[0] - coor.y[tam - 1]) * (coor.y[0] - coor.y[tam - 1]));
+                        
+                        for(icont = 0; icont < tam; icont++){
+                            coor.origem[icont] = sqrt((coor.x[icont] * coor.x[icont]) + (coor.y[icont] * coor.y[icont]));
+                        }
+                        
+                        for(icont = 0; icont < tam - 1; icont++){
+                            for(jcont = icont + 1; jcont < 5; jcont++)
+                                if(coor.origem[icont] > coor.origem[jcont]){
+                                    aux = coor.origem[icont];
+                                    coor.origem[icont] = coor.origem[jcont];
+                                    coor.origem[jcont] = aux;
+                                    aux = coor.x[icont];
+                                    coor.x[icont] = coor.x[jcont];
+                                    coor.x[jcont] = aux;
+                                    aux = coor.y[icont];
+                                    coor.y[icont] = coor.y[jcont];
+                                    coor.y[jcont] = aux;
+                                }
+                        }
+                        for(icont = 0; icont < tam; icont++){
+                            fprintf(point_out, "(%.1f,%.1f) ", coor.x[icont], coor.y[icont]);
+                        }
+                        fprintf(point_out, "distance %.2f shortcut %.2f\n", distance, shortcut);
+                        for(icont = 0; icont < tam; icont++){
+                            coor.x[icont] = 0;
+                            coor.y[icont] = 0;
+                        }
+                        jcont = 0;
+                        icont = 0;
+                        distance = 0;
+                    }
+                }
+            }while(c != EOF);
+        
+        }
+        fclose(point_in);
     }
-    fclose(point_arq);
-    
+    fclose(point_out);
 }
 
 

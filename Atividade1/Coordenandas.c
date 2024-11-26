@@ -79,7 +79,7 @@ int main()
                         }
                         fprintf(point_out, "%s", point);
                         for(icont = 0; icont < tam; icont++){
-                            fprintf(point_out, "(%.1f,%.1f) ", coor.x[icont], coor.y[icont]);
+                            fprintf(point_out, "(%.0f,%.0f) ", coor.x[icont], coor.y[icont]);
                         }
                         fprintf(point_out, "distance %.2f shortcut %.2f\n", distance, shortcut);
                         for(icont = 0; icont < tam; icont++){

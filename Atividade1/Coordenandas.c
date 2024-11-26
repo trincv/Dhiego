@@ -20,7 +20,7 @@ int main()
     float shortcut = 0;
     float aux;     
     char c;
-    
+    char point[] = {"points "};
     FILE *point_out;
 
     point_out = fopen("L0Q1.out", "w");
@@ -38,11 +38,11 @@ int main()
         }else{
             do{
                 c = fgetc(point_in);
-                if(c != ' ' && c != '\n' && c != EOF){
+                if(c != ' ' && c != '\n' && c != EOF && !(c >= 'a' && c <= 'z')){
                     coordenadas[icont++] = c;
                 }
                 coordenadas[icont] = '\0';
-                if(c == ' ' || c == EOF || c == '\n'){
+                if((c == ' ' || c == EOF || c == '\n') && coordenadas[0] != '\0'){
                     Quebra_Coordenadas(auxiliar, coordenadas, jcont);
                     coor.x[jcont] = auxiliar[0];
                     coor.y[jcont] = auxiliar[1];
@@ -76,6 +76,7 @@ int main()
                                     coor.y[jcont] = aux;
                                 }
                         }
+                        fprintf(point_out, "%s", point);
                         for(icont = 0; icont < tam; icont++){
                             fprintf(point_out, "(%.1f,%.1f) ", coor.x[icont], coor.y[icont]);
                         }

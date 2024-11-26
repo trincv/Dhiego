@@ -21,6 +21,7 @@ int main()
     float aux;     
     char c;
     char point[] = {"points "};
+    
     FILE *point_out;
 
     point_out = fopen("L0Q1.out", "w");
@@ -101,7 +102,8 @@ int main()
 
 void Quebra_Coordenadas(float auxiliar[], char coordenadas[], int cont)
 {
-    Coordenadas coor;
+
+    //sscanf(coordenadas, "(%f,%f)", &auxiliar[0], &auxiliar[1]);
     char LD[10];
     char LE[10];
     float x = 0, y = 0, aux = 1;

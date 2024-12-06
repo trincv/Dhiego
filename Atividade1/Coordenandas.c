@@ -3,19 +3,19 @@
 #include <math.h>
 
 typedef struct Coordenadas{
-    float x[10];
-    float y[10];
-    float origem[10];
+    float x[700];
+    float y[700];
+    float origem[700];
 } Coordenadas;
 
-void Quebra_Coordenadas(float auxiliar[], char coordenadas[], int cont);
+void Quebra_Coordenadas(float auxiliar[], char coordenadas[]);
 
 int main()
 {
     Coordenadas coor;
     float auxiliar[2];
     char coordenadas[20];
-    int icont = 0, jcont = 0, tam = 0;
+    int icont = 0, jcont = 0, tam = 0, linha = 0;
     float distance = 0;
     float shortcut = 0;
     float aux;     
@@ -39,12 +39,16 @@ int main()
         }else{
             do{
                 c = fgetc(point_in);
+                if(c != EOF && linha == 1){
+                    fprintf(point_out, "\n");
+                    linha = 0;
+                }
                 if(c != ' ' && c != '\n' && c != EOF && !(c >= 'a' && c <= 'z')){
                     coordenadas[icont++] = c;
                 }
                 coordenadas[icont] = '\0';
                 if((c == ' ' || c == EOF || c == '\n') && coordenadas[0] != '\0'){
-                    Quebra_Coordenadas(auxiliar, coordenadas, jcont);
+                    Quebra_Coordenadas(auxiliar, coordenadas);
                     coor.x[jcont] = auxiliar[0];
                     coor.y[jcont] = auxiliar[1];
                     icont = 0;
@@ -81,11 +85,12 @@ int main()
                         for(icont = 0; icont < tam; icont++){
                             fprintf(point_out, "(%.0f,%.0f) ", coor.x[icont], coor.y[icont]);
                         }
-                        fprintf(point_out, "distance %.2f shortcut %.2f\n", distance, shortcut);
+                        fprintf(point_out, "distance %.2f shortcut %.2f", distance, shortcut);
                         for(icont = 0; icont < tam; icont++){
                             coor.x[icont] = 0;
                             coor.y[icont] = 0;
                         }
+                        linha = 1;
                         jcont = 0;
                         icont = 0;
                         distance = 0;
@@ -100,10 +105,9 @@ int main()
 }
 
 
-void Quebra_Coordenadas(float auxiliar[], char coordenadas[], int cont)
+void Quebra_Coordenadas(float auxiliar[], char coordenadas[])
 {
 
-    //sscanf(coordenadas, "(%f,%f)", &auxiliar[0], &auxiliar[1]);
     char LD[10];
     char LE[10];
     float x = 0, y = 0, aux = 1;

@@ -58,20 +58,6 @@ int main(){
 
                 Search_all_tree(file_out, Tree->root);
                 fprintf(file_out, "\n");
-                // copy = strdup(buffer);
-
-                // if(!copy){ 
-                //     printf("Alocação de memória falhou");
-                //     return;
-                // }
-                // token = strtok(copy, separator);
-                // int tam;
-                // while(token != NULL){
-                //     tam = search_heights(Tree->root, atoi(token));
-                //     fprintf(file_out, "%d ", tam);
-                //     token = strtok(NULL, copy);
-                // }
-                // fprintf(file_out, "\n");
             }
             fclose(file_out);
         }
@@ -114,23 +100,6 @@ my_tree * Insert_Tree(my_tree * t, int key){
     new->mother = mother;
     return t;
 }
-// int search_heights(Node * root, int key){
-
-//     while(key != root->key || root->num == 1){
-
-//         if(key < root->key) root = root->left;
-//         else root = root->right;
-//     }
-//     root->num = 1;
-//     return root->tam;
-// }
-// void Search_all_tree(Node * root){
-//     if(root != NULL){
-//         Search_all_tree(root->left);
-//         printf("%d\n", root->key);
-//         Search_all_tree(root->right);
-//     }
-// }
 void Search_all_tree(FILE * file_out, Node * root){
     if(root != NULL){
         int sum_left = 0;

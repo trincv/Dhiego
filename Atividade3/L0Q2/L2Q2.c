@@ -36,6 +36,7 @@ int main(){
         else{
 
             char buffer[100];
+            int first_line = 1;
 
             while(fgets(buffer, sizeof(buffer), file_in) != NULL){
 
@@ -55,9 +56,11 @@ int main(){
                     Tree = Insert_Tree(Tree, atoi(token));
                     token = strtok(NULL, separator);
                 }
-
+                if(!first_line){
+                    fprintf(file_out, "\n");
+                }
                 Search_all_tree(file_out, Tree->root);
-                fprintf(file_out, "\n");
+                first_line = 0;
             }
             fclose(file_out);
         }
@@ -107,7 +110,9 @@ void Search_all_tree(FILE * file_out, Node * root){
         Search_all_tree(file_out, root->left);
         sum_left = Sum_Tree(root->left, sum_left);
         sum_right = Sum_Tree(root->right, sum_right);
-        fprintf(file_out, "%d (%d) ", root->key, sum_right - sum_left);
+        fprintf(file_out, "%d (%d)", root->key, sum_right - sum_left);
+        if(root->left != NULL || root->right != NULL)
+            fprintf(file_out, " ");
         Search_all_tree(file_out, root->right);
     }
 }

@@ -24,8 +24,6 @@ void Search_all_tree(Node *, FILE *, Node *);
 int Sum_Tree(Node *, int);
 my_tree *Insert_Tree(my_tree *, int);
 
-int original_Tree_root;
-
 int main() {
     FILE *file_in = fopen("L2Q2.in", "r");
 
@@ -38,7 +36,7 @@ int main() {
             printf("Arquivo L2Q2.out não foi criado");
         } else {
             char buffer[100];
-            int first_line = 1; // Flag to track the first line
+            int first_line = 1;
 
             while (fgets(buffer, sizeof(buffer), file_in) != NULL) {
                 my_tree *Tree = Create_tree(Tree);
@@ -58,11 +56,10 @@ int main() {
                 }
 
                 if (!first_line) {
-                    fprintf(file_out, "\n"); // Add newline only if it's not the first line
+                    fprintf(file_out, "\n");
                 }
-                original_Tree_root = Tree->root->key;
                 Search_all_tree(Tree->root, file_out, Tree->root);
-                first_line = 0; // Update flag after processing the first line
+                first_line = 0;
             }
             fclose(file_out);
         }
